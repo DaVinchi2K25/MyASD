@@ -9,69 +9,83 @@
 #include <iostream>
 using namespace std;
 
-struct Node
 
-{
-	// указатель на следующий элемент в очереди
-	Node* next;
-	// значение элемента в очереди	
+
+struct element {
+
 	int value;
-};
+	element* next;
 
-class Ochered
-{
+};
+class Queue {
+
 public:
-	// Колличество элементов в списке
+	element* head;
 	int N;
 	int i;
-	int size = 0;
-	int size_1 = NULL;
-	// Счетчик колличества операций
-	unsigned long long int N_op = 0;
-	// указатель на первый элемент
-	Node* head;
-	// указатель на хвост очереди
-	Node* tail;
-	// инициализация очереди
-	void Init() //2
-	{
-		head = NULL; //1
-		// При инициализации head и tail = NULL
-		tail = head; //1
+	int size;
+	void Init() {
+
+		head = NULL;
+
 	}
-	// добавление элемента в начало очереди, x - значение этого элемента
-	void Add(int x) //(3+2+2)+(1+2+1)+2=13
-	{
-		// создание нового элемента
-		Node* node = new Node; //3
-		// в поле next данного элемента записывается NULL
-		node->next = NULL; //2
-		// в поле value записывается значение ячейки очереди int
-		node->value = x; //2
-		// после инициализации и при создании первого элемента мы проходим по ветке else
-		if (tail != NULL) //1
-		{
-			/* добавление элемента через хвост в очереди,
-			tail указывает на первый элемент в очереди перед добавляемым
-			в поле next первого элемента записывается адрес нового первого элемента*/
-			tail->next = node; //2
-			// tail начинает указывать на новый элемент в очереди
-			tail = node; //1
+
+
+
+	void Add(int n) {
+
+		if (head == NULL) {
+
+			head = new element;
+			head->value = n;
+			head->next = 0;
+			size++;
 		}
-		else
-		{
-			// хвост указывает на первый элемент в очереди
-			tail = node; //1
-			// голова указывает на первый элемент в очереди
-			head = tail; //1
+		else if (head->next == 0) {
+
+			element* tmpElement = new element;
+			tmpElement->value = n;
+			tmpElement->next = 0;
+			head->next = tmpElement;
+			size++;
 		}
-		size++; //2
+		else {
+
+			element* currentElement = head->next;
+
+			while (currentElement->next != 0) {
+
+				currentElement = currentElement->next;
+
+			}
+
+			element* tmpElement = new element;
+			tmpElement->value = n;
+			tmpElement->next = 0;
+			currentElement->next = tmpElement;
+			size++;
+		}
+
 	}
-	// проверка очереди на пустоту
-	bool Isempty() //1
-	{
-		//true, если head = NULL; false, если head указывает на какой-либо элемент в очереди
-		return head == NULL; //1
+
+
+	int Del(bool a) {
+
+		int n = 0;
+
+		if (Isempty() != 1) {
+			n = head->value;
+			head = head->next;
+
+
+			if (Isempty() == 1) //2
+			{
+				Init(); //2
+			}
+		}
+		size--;
+		return n;
+
 	}
 	// удаление элемента из конца очереди
 	int Del() //1+(2+2+2+1+2+2+2)=14
@@ -81,7 +95,7 @@ public:
 		if (Isempty() != 1) //2
 		{
 			// создаем указатель на структуру
-			Node* tmp;
+			element* tmp;
 			// в указателюь tmp кладем ссылку на next предпоследнего элемента в очереди
 			tmp = head->next; //2
 			// в val записываем значение последнего элемента в очереди
@@ -102,7 +116,24 @@ public:
 		else { cout << "Очередь пуста!" << endl; }
 		return 0;
 	}
-	// получение значения из конца очереди
+
+	void print() {
+
+		element* currentElement = head;
+		while (currentElement != 0) {
+
+			cout << currentElement->value << " ";
+			currentElement = currentElement->next;
+
+		}
+
+		cout << endl;
+
+	}
+
+	bool Isempty() {
+		return head == 0;
+	}
 	int Value() //3
 	{
 		// если очередь не пуста
@@ -116,10 +147,12 @@ public:
 	}
 };
 
+
 // Класс наследник
-class Numbers : public Ochered
+class Numbers : public Queue
 {
 public:
+	int size_1 = 0;
 	// получение значения из списка, x - номер элемента в списке
 	int get(int x) //2+1+1+(1+33n)=5+33n
 	{
@@ -160,7 +193,7 @@ public:
 		// если очередь не пуста
 		if (Isempty() != 1) //2
 		{
-			N_op += 2;
+
 			if (x <= size) //1+1+1+31n=3+31n
 			{
 				size_1 = size; //1
@@ -208,55 +241,53 @@ public:
 		// Сортировка массива пузырьком
 		for (int i = 0; i < size - 1; i++) // 3 + ∑0->n-1(
 		{
-			N_op += 2;
 			for (int j = 0; j < size - i - 1; j++) //4++∑0->n-
 			{
-				N_op += 2;
+
 				if (get(j) > get(j + 1)) // 12+66n
 				{
 					// меняем элементы местами
 					temp = get(j); // 6+33n
-					set(j, get(j+1)); // 128n+11
-					set(j+1, temp); // 6+31n
-					
+					set(j, get(j + 1)); // 128n+11
+					set(j + 1, temp); // 6+31n
+
 				}
 			}
 		}
-//	for (int i = 0; i < N; i++) {cout << get(i) << " ";	} // для вывода отсортированного массива
+		for (int i = 0; i < N; i++) { cout << get(i) << " "; } // для вывода отсортированного массива
 	}
 };
 
-	int main()
+int main()
+{
+	setlocale(LC_ALL, "ru");
+	srand(time(NULL));
+	// Схема эксперимента
+	// Инициализация очереди и заполнение хранилища ключей
+	int i, t_s, t_f;
+	// Хранилище ключей
+	int Key[300];
+	int N = 30;
+	Numbers list;
+	list.Init();
+	for (i = 0; i < 300; i++)
 	{
-		setlocale(LC_ALL, "ru");
-		srand(time(NULL));
-		// Схема эксперимента
-		// Инициализация очереди и заполнение хранилища ключей
-		int i, t_s, t_f;
-		// Хранилище ключей
-		int Key[300];
-		int N = 30;
-		Numbers list;
-		list.Init();
-		for (i = 0; i < 300; i++)
-		{
-			// Заполнение хранилища ключей случайными числами до 1000
-			Key[i] = rand() % 999;
-		}
-		for (i = 0; i < 10; i++)
-		{
-			for (int z = N - 30; z < N; z++)
-			{
-				list.Add(Key[z]);
-			}
-			list.N_op = 0;
-			t_s = GetTickCount64();
-			list.sort(N);
-			t_f = GetTickCount64();
-			cout << "Номер сортировки: " << i + 1 << " Колличество отсортированных элементов: " << N << " Время сортировки (ms): " << t_f - t_s << " Колличество операций (N_op): " << list.N_op << endl; // Шаг в 30 элементов
-			cout << endl; 
-			N = N + 30;
-		}
-		return 0;
+		// Заполнение хранилища ключей случайными числами до 1000
+		Key[i] = rand() % 999;
 	}
+	for (i = 0; i < 10; i++)
+	{
+		for (int z = N - 30; z < N; z++)
+		{
+			list.Add(Key[z]);
+		}
+		t_s = GetTickCount64();
+		list.sort(N);
+		t_f = GetTickCount64();
+		cout << "Номер сортировки: " << i + 1 << " Колличество отсортированных элементов: " << N << " Время сортировки (ms): " << t_f - t_s << " Колличество операций (N_op): " << endl; // Шаг в 30 элементов
+		cout << endl;
+		N = N + 30;
+	}
+	return 0;
+}
 
