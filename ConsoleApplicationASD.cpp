@@ -256,7 +256,7 @@ public:
 				}
 			}
 		}
-/		//for (int i = 0; i < N; i++) { cout << get(i) << " "; } // для вывода отсортированного массива
+	//for (int i = 0; i < N; i++) { cout << get(i) << " "; } // для вывода отсортированного массива
 	}
 };
 
@@ -268,8 +268,8 @@ int main()
 	// Инициализация очереди и заполнение хранилища ключей
 	int i, t_s, t_f; 
 	// Хранилище ключей
-	int Key[300];
-	int N = 30;
+	int Key[3000];
+	int N = 300;
 	Numbers list;
 	list.Init();
 	for (i = 0; i < 300; i++)
@@ -279,16 +279,16 @@ int main()
 	}
 	for (i = 0; i < 10; i++)
 	{
-		for (int z = N - 30; z < N; z++)
+		for (int z = N - 300; z < N; z++)
 		{
 			list.Add(Key[z]);
 		}
-		t_s = GetTickCount();
+		t_s = GetTickCount64();
 		list.sort(N);
-		t_f = GetTickCount();
+		t_f = GetTickCount64();
 		cout << "Номер сортировки: " << i + 1 << " Колличество отсортированных элементов: " << N << " Время сортировки (ms): " << t_f - t_s << " Колличество операций (N_op): " << list.N_op << endl; // Шаг в 30 элементов
 		cout << endl;
-		N = N + 30;
+		N = N + 300;
 	}
 	return 0;
 }
