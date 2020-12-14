@@ -9,8 +9,6 @@
 #include <iostream>
 using namespace std;
 
-
-
 struct element {
 
 	int value;
@@ -18,7 +16,7 @@ struct element {
 
 };
 class Queue {
-
+	
 public:
 	element* head;
 	int N;
@@ -198,7 +196,6 @@ public:
 						// Запись значения y в список
 						head->value = y; N_op += 2;
 					}
-
 					if (x != 1)
 					{
 						N_op++;
@@ -259,7 +256,7 @@ public:
 				}
 			}
 		}
-		//for (int i = 0; i < N; i++) { cout << get(i) << " "; } // для вывода отсортированного массива
+/		//for (int i = 0; i < N; i++) { cout << get(i) << " "; } // для вывода отсортированного массива
 	}
 };
 
@@ -269,7 +266,7 @@ int main()
 	srand(time(NULL));
 	// Схема эксперимента
 	// Инициализация очереди и заполнение хранилища ключей
-	int i, t_s, t_f;
+	int i, t_s, t_f; 
 	// Хранилище ключей
 	int Key[300];
 	int N = 30;
@@ -286,9 +283,9 @@ int main()
 		{
 			list.Add(Key[z]);
 		}
-		t_s = GetTickCount64();
+		t_s = GetTickCount();
 		list.sort(N);
-		t_f = GetTickCount64();
+		t_f = GetTickCount();
 		cout << "Номер сортировки: " << i + 1 << " Колличество отсортированных элементов: " << N << " Время сортировки (ms): " << t_f - t_s << " Колличество операций (N_op): " << list.N_op << endl; // Шаг в 30 элементов
 		cout << endl;
 		N = N + 30;
